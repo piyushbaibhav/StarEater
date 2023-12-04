@@ -5,6 +5,8 @@ function getKeyString(x, y) {
   return `${x}x${y}`;
 }
 
+const playerColors = ["blue", "red", "orange", "yellow", "green", "purple"];
+
 
 function createName() {
   const prefix = randomFromArray([
