@@ -128,6 +128,7 @@ function getRandomSafeSpot() {
   // audioElement.play(); // Start playing the music
   document.getElementById("playButton").addEventListener("click", () => {
     audioElement.play();
+    audioElement.loop = true;
   });
 
   
