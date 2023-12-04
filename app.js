@@ -74,6 +74,16 @@ function initGame() {
         </div>
         <div class="Character_you-arrow"></div>
       `;
+      characterElement.querySelector(".Character_name").innerText =
+        addedPlayer.name;
+      characterElement.querySelector(".Character_coins").innerText =
+        addedPlayer.coins;
+      characterElement.setAttribute("data-color", addedPlayer.color);
+      characterElement.setAttribute("data-direction", addedPlayer.direction);
+      const left = 16 * addedPlayer.x + "px";
+      const top = 16 * addedPlayer.y - 4 + "px";
+      characterElement.style.transform = `translate3d(${left}, ${top}, 0)`;
+      gameContainer.appendChild(characterElement);
     })
 
 }
