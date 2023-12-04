@@ -18,3 +18,14 @@ const mapData = {
     "9x9": true,
   },
 };
+
+
+const playerColors = ["blue", "red", "orange", "yellow", "green", "purple"];
+
+
+function randomFromArray(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+function getKeyString(x, y) {
+  return `${x}x${y}`;
+}
