@@ -46,6 +46,24 @@ function createName() {
   ]);
   return `${prefix} ${animal}`;
 }
+
+function initGame() {
+    new KeyPressListener("ArrowUp", () => handleArrowPress(0, -1));
+    new KeyPressListener("ArrowDown", () => handleArrowPress(0, 1));
+    new KeyPressListener("ArrowLeft", () => handleArrowPress(-1, 0));
+    new KeyPressListener("ArrowRight", () => handleArrowPress(1, 0));
+
+    const allPlayersRef = firebase.database().ref(`players`);
+    const allCoinsRef = firebase.database().ref(`coins`);
+    allPlayersRef.on("value", (snapshot) => {
+      
+    })
+    allPlayersRef.on("child_added", (snapshot) => {
+
+    })
+
+}
+
 (function (){
 
    let playerId;
