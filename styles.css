@@ -71,7 +71,7 @@ button:active {
   top: 1px;
 }
 
-/* Characters */
+
 .grid-cell {
   position: absolute;
   width: 16px;
@@ -100,6 +100,8 @@ button:active {
   top: -3px;
   background: url(/images/characters.png);
 }
+
+
 .Character[data-direction="right"] .Character_sprite {
   background-position-x: 16px;
 }
@@ -140,7 +142,7 @@ button:active {
   color: gold;
 }
 
-/* Coins */
+
 .Coin_sprite {
   background: url(/images/coin.png) no-repeat no-repeat;
   animation: coinFloat 0.8s linear infinite alternate-reverse;
@@ -149,6 +151,8 @@ button:active {
   from { transform: translateY(0) }
   to { transform: translateY(5px) }
 }
+
+
 .Coin_shadow {
   background: url(/images/coin-shadow.png) no-repeat no-repeat;
 }
