@@ -53,6 +53,25 @@ function getKeyString(x, y) {
   return `${x}x${y}`;
 }
 
+coinElements[key] = coinElement;
+      gameContainer.appendChild(coinElement);
+    ;
+    allCoinsRef.on("child_removed", (snapshot) => {
+      const { x, y } = snapshot.val();
+      const keyToRemove = getKeyString(x, y);
+      gameContainer.removeChild(coinElements[keyToRemove]);
+      delete coinElements[keyToRemove];
+    });
+
+    //Updates player name with text input
+    playerNameInput.addEventListener("change", (e) => {
+      const newName = e.target.value || createName();
+      playerNameInput.value = newName;
+      playerRef.update({
+        name: newName,
+      });
+    });
+
 const playerColors = ["blue", "red", "orange", "yellow", "green", "purple"];
 
 function createName() {
