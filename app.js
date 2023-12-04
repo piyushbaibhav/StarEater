@@ -4,6 +4,46 @@ function randomFromArray(array) {
 function getKeyString(x, y) {
   return `${x}x${y}`;
 }
+
+
+function createName() {
+  const prefix = randomFromArray([
+    "POOKIE",
+    "SUPER",
+    "BADA",
+    "TERA",
+    "MERA",
+    "BIG",
+    "GOOD",
+    "SMALL",
+    "MY",
+    "YOUR",
+    "GAY",
+    "CHUTKI KI",
+    "LONG",
+    "DARK",
+    "SOFT",
+    "TAMBI",
+  ]);
+  const animal = randomFromArray([
+    "BEAR",
+    "DICK",
+    "CHUT",
+    "LUND",
+    "BETA",
+    "MUTH",
+    "BAAP",
+    "GAND",
+    "JHAT",
+    "BOOBS",
+    "TITS",
+    "BHEEM",
+    "KUTTA",
+    "CHAD",
+    "FISHU",
+  ]);
+  return `${prefix} ${animal}`;
+}
 (function (){
 
    let playerId;
