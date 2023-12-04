@@ -56,10 +56,24 @@ function initGame() {
     const allPlayersRef = firebase.database().ref(`players`);
     const allCoinsRef = firebase.database().ref(`coins`);
     allPlayersRef.on("value", (snapshot) => {
-      
+
     })
     allPlayersRef.on("child_added", (snapshot) => {
-
+      const addedPlayer = snapshot.val();
+      const characterElement = document.createElement("div");
+      characterElement.classList.add("Character", "grid-cell");
+      if (addedPlayer.id === playerId) {
+        characterElement.classList.add("you");
+      }
+       characterElement.innerHTML = `
+        <div class="Character_shadow grid-cell"></div>
+        <div class="Character_sprite grid-cell"></div>
+        <div class="Character_name-container">
+          <span class="Character_name"></span>
+          <span class="Character_coins">0</span>
+        </div>
+        <div class="Character_you-arrow"></div>
+      `;
     })
 
 }
