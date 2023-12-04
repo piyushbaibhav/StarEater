@@ -85,6 +85,11 @@ function initGame() {
       characterElement.style.transform = `translate3d(${left}, ${top}, 0)`;
       gameContainer.appendChild(characterElement);
     })
+    allPlayersRef.on("child_removed", (snapshot) => {
+      const removedKey = snapshot.val().id;
+      gameContainer.removeChild(playerElements[removedKey]);
+      delete playerElements[removedKey];
+    });
 
 }
 
