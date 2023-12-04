@@ -52,7 +52,11 @@ function initGame() {
     new KeyPressListener("ArrowDown", () => handleArrowPress(0, 1));
     new KeyPressListener("ArrowLeft", () => handleArrowPress(-1, 0));
     new KeyPressListener("ArrowRight", () => handleArrowPress(1, 0));
-     allPlayersRef.on("value", (snapshot) => {
+
+    const allPlayersRef = firebase.database().ref(`players`);
+    const allCoinsRef = firebase.database().ref(`coins`);
+
+    allPlayersRef.on("value", (snapshot) => {
       //Fires whenever a change occurs
       players = snapshot.val() || {};
       Object.keys(players).forEach((key) => {
@@ -67,20 +71,16 @@ function initGame() {
         const top = 16 * characterState.y - 4 + "px";
         el.style.transform = `translate3d(${left}, ${top}, 0)`;
       });
-
-    const allPlayersRef = firebase.database().ref(`players`);
-    const allCoinsRef = firebase.database().ref(`coins`);
-    allPlayersRef.on("value", (snapshot) => {
-
-    })
+    });
     allPlayersRef.on("child_added", (snapshot) => {
+      //Fires whenever a new node is added the tree
       const addedPlayer = snapshot.val();
       const characterElement = document.createElement("div");
       characterElement.classList.add("Character", "grid-cell");
       if (addedPlayer.id === playerId) {
         characterElement.classList.add("you");
       }
-       characterElement.innerHTML = `
+      characterElement.innerHTML = `
         <div class="Character_shadow grid-cell"></div>
         <div class="Character_sprite grid-cell"></div>
         <div class="Character_name-container">
@@ -89,6 +89,9 @@ function initGame() {
         </div>
         <div class="Character_you-arrow"></div>
       `;
+      playerElements[addedPlayer.id] = characterElement;
+
+      //Fill in some initial state
       characterElement.querySelector(".Character_name").innerText =
         addedPlayer.name;
       characterElement.querySelector(".Character_coins").innerText =
@@ -99,18 +102,20 @@ function initGame() {
       const top = 16 * addedPlayer.y - 4 + "px";
       characterElement.style.transform = `translate3d(${left}, ${top}, 0)`;
       gameContainer.appendChild(characterElement);
-    })
+    });
+
+    //Remove character DOM element after they leave
     allPlayersRef.on("child_removed", (snapshot) => {
       const removedKey = snapshot.val().id;
       gameContainer.removeChild(playerElements[removedKey]);
       delete playerElements[removedKey];
     });
 
+    //New - not in the video!
+    //This block will remove coins from local state when Firebase `coins` value updates
     allCoinsRef.on("value", (snapshot) => {
       coins = snapshot.val() || {};
     });
-
-}
 
 (function (){
 
@@ -166,4 +171,4 @@ function initGame() {
     });
 
 
-})();
+})()};
