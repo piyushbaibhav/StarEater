@@ -76,6 +76,10 @@ function createName() {
         y,
         coins: 0,
       });
+      playerRef.onDisconnect().remove();
+
+      //Begin the game now that we are signed in
+      initGame();
       
     } else {
       //You're logged out.
