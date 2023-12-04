@@ -91,6 +91,10 @@ function initGame() {
       delete playerElements[removedKey];
     });
 
+    allCoinsRef.on("value", (snapshot) => {
+      coins = snapshot.val() || {};
+    });
+
 }
 
 (function (){
