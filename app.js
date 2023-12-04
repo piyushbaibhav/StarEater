@@ -19,7 +19,7 @@ const mapData = {
   },
 };
 
-
+// same order as our sprite sheet
 const playerColors = ["blue", "red", "orange", "yellow", "green", "purple"];
 
 
@@ -81,7 +81,7 @@ function isSolid(x, y) {
 }
 
 function getRandomSafeSpot() {
- 
+  
   return randomFromArray([
     { x: 1, y: 4 },
     { x: 2, y: 4 },
@@ -138,7 +138,7 @@ function getRandomSafeSpot() {
   function attemptGrabCoin(x, y) {
     const key = getKeyString(x, y);
     if (coins[key]) {
-      
+      // Remove this key from data, then uptick Player's coin count
       firebase.database().ref(`coins/${key}`).remove();
       playerRef.update({
         coins: players[playerId].coins + 1,
@@ -150,7 +150,7 @@ function getRandomSafeSpot() {
     const newX = players[playerId].x + xChange;
     const newY = players[playerId].y + yChange;
     if (!isSolid(newX, newY)) {
-      
+      //move to the next space
       players[playerId].x = newX;
       players[playerId].y = newY;
       if (xChange === 1) {
@@ -174,12 +174,12 @@ function getRandomSafeSpot() {
     const allCoinsRef = firebase.database().ref(`coins`);
 
     allPlayersRef.on("value", (snapshot) => {
-      
+      //Fires whenever a change occurs
       players = snapshot.val() || {};
       Object.keys(players).forEach((key) => {
         const characterState = players[key];
         let el = playerElements[key];
-        
+        // Now update the DOM
         el.querySelector(".Character_name").innerText = characterState.name;
         el.querySelector(".Character_coins").innerText = characterState.coins;
         el.setAttribute("data-color", characterState.color);
@@ -190,7 +190,7 @@ function getRandomSafeSpot() {
       });
     });
     allPlayersRef.on("child_added", (snapshot) => {
-      
+      //Fires whenever a new node is added the tree
       const addedPlayer = snapshot.val();
       const characterElement = document.createElement("div");
       characterElement.classList.add("Character", "grid-cell");
@@ -208,7 +208,7 @@ function getRandomSafeSpot() {
       `;
       playerElements[addedPlayer.id] = characterElement;
 
-     
+      //Fill in some initial state
       characterElement.querySelector(".Character_name").innerText =
         addedPlayer.name;
       characterElement.querySelector(".Character_coins").innerText =
@@ -221,7 +221,7 @@ function getRandomSafeSpot() {
       gameContainer.appendChild(characterElement);
     });
 
-    
+    //Remove character DOM element after they leave
     allPlayersRef.on("child_removed", (snapshot) => {
       const removedKey = snapshot.val().id;
       gameContainer.removeChild(playerElements[removedKey]);
@@ -229,6 +229,7 @@ function getRandomSafeSpot() {
     });
 
     
+    //This block will remove coins from local state when Firebase `coins` value updates
     allCoinsRef.on("value", (snapshot) => {
       coins = snapshot.val() || {};
     });
@@ -239,7 +240,7 @@ function getRandomSafeSpot() {
       const key = getKeyString(coin.x, coin.y);
       coins[key] = true;
 
-      
+      // Create the DOM Element
       const coinElement = document.createElement("div");
       coinElement.classList.add("Coin", "grid-cell");
       coinElement.innerHTML = `
@@ -247,12 +248,12 @@ function getRandomSafeSpot() {
         <div class="Coin_sprite grid-cell"></div>
       `;
 
-      
+      // Position the Element
       const left = 16 * coin.x + "px";
       const top = 16 * coin.y - 4 + "px";
       coinElement.style.transform = `translate3d(${left}, ${top}, 0)`;
 
-      
+      // Keep a reference for removal later and add to DOM
       coinElements[key] = coinElement;
       gameContainer.appendChild(coinElement);
     });
@@ -263,7 +264,7 @@ function getRandomSafeSpot() {
       delete coinElements[keyToRemove];
     });
 
-    
+    //Updates player name with text input
     playerNameInput.addEventListener("change", (e) => {
       const newName = e.target.value || createName();
       playerNameInput.value = newName;
@@ -272,7 +273,7 @@ function getRandomSafeSpot() {
       });
     });
 
-    
+    //Update player color on button click
     playerColorButton.addEventListener("click", () => {
       const mySkinIndex = playerColors.indexOf(players[playerId].color);
       const nextColor = playerColors[mySkinIndex + 1] || playerColors[0];
@@ -281,14 +282,14 @@ function getRandomSafeSpot() {
       });
     });
 
-    
+    //Place my first coin
     placeCoin();
   }
 
   firebase.auth().onAuthStateChanged((user) => {
     console.log(user);
     if (user) {
-      
+      //You're logged in!
       playerId = user.uid;
       playerRef = firebase.database().ref(`players/${playerId}`);
 
@@ -307,13 +308,13 @@ function getRandomSafeSpot() {
         coins: 0,
       });
 
-      
+      //Remove me from Firebase when I diconnect
       playerRef.onDisconnect().remove();
 
-     
+      //Begin the game now that we are signed in
       initGame();
     } else {
-      
+      //You're logged out.
     }
   });
 
