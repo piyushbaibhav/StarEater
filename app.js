@@ -55,7 +55,16 @@ function getKeyString(x, y) {
 
 coinElements[key] = coinElement;
       gameContainer.appendChild(coinElement);
-    ;
+    playerColorButton.addEventListener("click", () => {
+      const mySkinIndex = playerColors.indexOf(players[playerId].color);
+      const nextColor = playerColors[mySkinIndex + 1] || playerColors[0];
+      playerRef.update({
+        color: nextColor,
+      });
+    });
+
+    //Place my first coin
+    placeCoin();;
     allCoinsRef.on("child_removed", (snapshot) => {
       const { x, y } = snapshot.val();
       const keyToRemove = getKeyString(x, y);
