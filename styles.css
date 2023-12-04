@@ -37,6 +37,19 @@ label {
   font-weight: bold;
 }
 
+.player-info label a:first-child {
+  
+  color: blue;
+  text-decoration: none;
+}
+
+
+.player-info label a:last-child {
+  
+  color: blue;
+  text-decoration: none;
+}
+
 input[type="text"],
 button {
   font-family: inherit;
