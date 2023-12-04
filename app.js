@@ -121,6 +121,17 @@ function getRandomSafeSpot() {
   const playerNameInput = document.querySelector("#player-name");
   const playerColorButton = document.querySelector("#player-color");
 
+  const audioElement = document.createElement("audio");
+  audioElement.src = "images/cottagecore-17463.mp3"; // Replace with the path to your music file
+  audioElement.loop = true; // Loop the music
+  audioElement.volume = 0.5; // Set the volume (0.0 to 1.0)
+  // audioElement.play(); // Start playing the music
+  document.getElementById("playButton").addEventListener("click", () => {
+    audioElement.play();
+  });
+
+  
+
   function placeCoin() {
     const { x, y } = getRandomSafeSpot();
     const coinRef = firebase.database().ref(`coins/${getKeyString(x, y)}`);
