@@ -52,6 +52,21 @@ function initGame() {
     new KeyPressListener("ArrowDown", () => handleArrowPress(0, 1));
     new KeyPressListener("ArrowLeft", () => handleArrowPress(-1, 0));
     new KeyPressListener("ArrowRight", () => handleArrowPress(1, 0));
+     allPlayersRef.on("value", (snapshot) => {
+      //Fires whenever a change occurs
+      players = snapshot.val() || {};
+      Object.keys(players).forEach((key) => {
+        const characterState = players[key];
+        let el = playerElements[key];
+        // Now update the DOM
+        el.querySelector(".Character_name").innerText = characterState.name;
+        el.querySelector(".Character_coins").innerText = characterState.coins;
+        el.setAttribute("data-color", characterState.color);
+        el.setAttribute("data-direction", characterState.direction);
+        const left = 16 * characterState.x + "px";
+        const top = 16 * characterState.y - 4 + "px";
+        el.style.transform = `translate3d(${left}, ${top}, 0)`;
+      });
 
     const allPlayersRef = firebase.database().ref(`players`);
     const allCoinsRef = firebase.database().ref(`coins`);
