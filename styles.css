@@ -169,3 +169,12 @@ button:active {
 .Coin_shadow {
   background: url(/images/coin-shadow.png) no-repeat no-repeat;
 }
+#github{
+  margin-left: 20cm;
+}
+#linkedin{
+  margin-left: 20;
+}
+#fork{
+  margin-left: 20;
+}
